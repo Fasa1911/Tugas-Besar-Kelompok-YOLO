@@ -100,6 +100,15 @@
 </body>
 </html>
     </style>
+  <script>
+      function showSection(sectionId, name, nim, description) {
+  document.querySelectorAll('.content').forEach(section => {
+   section.classList.remove('active');
+        });
+ document.getElementById(sectionId).classList.add('active');
+   alert("Nama: " + name + "\nNIM: " + nim + "\nDeskripsi: " + description);
+        }
+</script>
     
 </head>
 
