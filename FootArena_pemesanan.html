@@ -1,0 +1,125 @@
+<?php
+// Inisialisasi variabel untuk menyimpan nilai input dan error
+$nama = $email = $nomor = $lapangan = $notes = "";
+$namaErr = $emailErr = $nomorErr = $notesErr = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validasi Nama
+    $nama = $_POST["nama"];
+    if (empty($nama)) {
+        $namaErr = "Nama wajib diisi";
+    }
+
+    // Validasi Email
+    $email = $_POST["email"];
+    if (empty($email)) {
+        
+        $emailErr = "Email wajib diisi";
+    }
+
+    // Validasi Nomor Telepon
+    $nomor = $_POST["nomor"];
+    if (empty($nomor)) {
+        $nomorErr = "Nomor Telepon wajib diisi";
+    } elseif (!ctype_digit($nomor)) {
+        $nomorErr = "Nomor Telepon harus berupa angka";
+    }
+
+    // Validasi Notes
+    $notes = $_POST["notes"];
+    if (empty($notes)) {
+        $notesErr = "notes wajib diisi";
+    }
+
+    // Menyimpan pilihan lapangan tanpa validasi khusus
+    $lapangan = $_POST["lapangan"];
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan Lapangan Mini Soccer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Form Pemesanan Lapangan Mini Soccer</h2>
+        <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+            <div class="form-group">
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama" value="<?php echo $nama; ?>">
+                <span class="error"><?php echo $namaErr ? "* $namaErr" : ""; ?></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" value="<?php echo $email; ?>">
+                <span class="error"><?php echo $emailErr ? "* $emailErr" : ""; ?></span>
+            </div>
+
+            <div class="form-group">
+                <label for="nomor">Nomor Telepon:</label>
+                <input type="text" id="nomor" name="nomor" value="<?php echo $nomor; ?>">
+                <span class="error"><?php echo $nomorErr ? "* $nomorErr" : ""; ?></span>
+            </div>
+
+            <div class="form-group">
+                <label for="lapangan">Pilih Lapangan Mini Soccer:</label>
+                <select id="lapangan" name="lapangan">
+                    <option value="Gerai Land" <?php echo ($lapangan == "Gerai Land") ? "selected" : ""; ?>>Gerai Land</option>
+                    <option value="Mini Soccer Samara UMP" <?php echo ($lapangan == "Mini Soccer Samara UMP") ? "selected" : ""; ?>>Mini Soccer Samara UMP</option>
+                    <option value="F530 Arena Purwokerto" <?php echo ($lapangan == "F530 Arena Purwokerto") ? "selected" : ""; ?>>F530 Arena Purwokerto
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes"><?php echo $notes; ?></textarea>
+                <span class="error"><?php echo $notesErr ? "* $notesErr" : ""; ?></span>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Pilih Lapangan</button>
+            </div>
+        </form>
+    </div>
+
+    <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && !$namaErr && !$emailErr && !$nomorErr && !$notesErr) { ?>
+    <div class="container">
+        <h3>Data Pemesanan:</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="20%">Nama</th>
+                        <th width="20%">Email</th>
+                        <th width="15%">Nomor Telepon</th>
+                        <th width="15%">Lapangan</th>
+                        <th width="30%">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $nama; ?></td>
+                        <td><?php echo $email; ?></td>
+                        <td><?php echo $nomor; ?></td>
+                        <td><?php echo $lapangan; ?></td>
+                        <td><?php echo $notes; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+                <button type="submit">Selesaikan Pemesanan</button>
+
+    </div>
+    <?php } ?>
+</body>
+
+</html>
